@@ -65,7 +65,33 @@ const getImages=(req,res)=>{
     }
 }
 
+const deleteImage=(req,res)=>{
+    try{
+ const id=Number(req.params.id)
+
  
+
+ const database=readDatabase()
+    
+const  indexOfImage=database.images.findIndex((img)=>img.id===id)
+
+const image=database.images[indexOfImage]
+
+database.images.splice(indexOfImage,1)
+
+writeDatabase(database)
+ const filePath = path.join(uploadDir, image.storedName);
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+     return res.status(200).json({ message: "Image deleted successfully", image });
+
+    }catch(error){
+         console.log(error)
+        return res.status(500).json({"message":"Internal Server Error"})
+    }
+}
 
 module.exports = {
   postImage,getImages,deleteImage
