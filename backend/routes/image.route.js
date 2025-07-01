@@ -3,7 +3,7 @@ const router = express.Router();
 const fs =require("fs")
 const multer = require('multer');
 const path = require('path');
-const { postImage,  } = require('../controllers/image.controller');
+const { postImage, getImages,   } = require('../controllers/image.controller');
  const uploadDir = path.join(__dirname, "../images");
 
  
@@ -20,6 +20,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.post("/",upload.single('file'),postImage)
+router.get("/", getImages)
  
 
  

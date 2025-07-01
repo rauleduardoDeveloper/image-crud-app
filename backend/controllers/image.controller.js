@@ -45,6 +45,26 @@ const database=readDatabase()
     }
 }
 
+const getImages=(req,res)=>{
+    try{
+ 
+ const database=readDatabase()
+
+  const searchQuery = req.query.search?.toLowerCase() || "";
+
+  const filteredImages = database.images.filter((img) =>
+      img.storedName.toLowerCase().includes(searchQuery)
+    );
+ res.status(200).json({"message":"Images Got Successfully",  images: filteredImages})
+
+ 
+
+    }catch(error){
+         console.log(error)
+        return res.status(500).json({"message":"Internal Server Error"})
+    }
+}
+
  
 
 module.exports = {
