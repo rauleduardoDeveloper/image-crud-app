@@ -78,7 +78,18 @@ const getImages=async(searchQuery?:String)=>{
     }
   };
 
-  
+  const deleteImage=async(id:number)=>{
+    try{
+
+      const response=await axios.delete(`${BASE_URL}/api/images/${id}`)
+
+   setImages((prevImages:any) => prevImages.filter((image:Image) => image.id !== response?.data?.image?.id));
+      
+    }catch(error){
+     
+  toast.error("Error Deleting Image")
+    }
+  }
    useEffect(() => {
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
@@ -135,7 +146,7 @@ useEffect(()=>{
         type="button"
         className="btn btn-sm position-absolute top-0 end-0 m-2 "
         title="Delete Image"
-     
+        onClick={()=>{deleteImage(item.id)}}
       >
      <svg
   xmlns="http://www.w3.org/2000/svg"
